@@ -12,8 +12,8 @@ jobs:
 
       - name: Set up Node.js (if needed)
         uses: actions/setup-node@v3
-        with:
-          node-version: '20'
+        # with:
+        #   node-version: '20'
 
       - name: Install dependencies
         run: npm install
@@ -27,11 +27,11 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Upload SARIF file to GitHub Security tab
-        if: success() || failure()
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk_open_source_scan.sarif
+      # - name: Upload SARIF file to GitHub Security tab
+      #   if: success() || failure()
+      #   uses: github/codeql-action/upload-sarif@v3
+      #   with:
+      #     sarif_file: snyk_open_source_scan.sarif
 
 
 
