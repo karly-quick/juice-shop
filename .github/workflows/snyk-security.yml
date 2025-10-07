@@ -40,7 +40,7 @@ jobs:
         uses: snyk/actions/node@master
         continue-on-error: true
         with:
-          command: test
+          command: code test
           args: --sarif --sarif-file-output=snyk_open_source_scan.sarif 
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
