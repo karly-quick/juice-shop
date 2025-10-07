@@ -17,7 +17,7 @@
 #         with:
 #           sarif_file: snyk.sarif
 
-name: Snyk OS Code Scan
+name: Snyk OS/SAST Scan
 
 on:
   push
