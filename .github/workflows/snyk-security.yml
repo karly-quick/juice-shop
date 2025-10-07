@@ -1,36 +1,55 @@
-name: Snyk OS Code Scan
-
-on:
-  workflow_dispatch:
-
+name: Example workflow for Node using Snyk
+on: push
 jobs:
-  snyk_scan:
+  security:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # - name: Set up Node.js (if needed)
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '20'
-
-      - name: Get Node v18
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm install
-
+      - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
-        continue-on-error: true
-        with:
-          command: test
-          args: --sarif --sarif-file-output=snyk_open_source_scan.sarif 
+        continue-on-error: true # To make sure that SARIF upload gets called
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk.sarif
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk.sarif
+
+# name: Snyk OS Code Scan
+
+# on:
+#   workflow_dispatch:
+
+# jobs:
+#   snyk_scan:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+
+#       # - name: Set up Node.js (if needed)
+#       #   uses: actions/setup-node@v3
+#       #   with:
+#       #     node-version: '20'
+
+#       - name: Get Node v18
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18
+
+#       - name: Install dependencies
+#         run: npm install
+
+#       - name: Run Snyk to check for vulnerabilities
+#         uses: snyk/actions/node@master
+#         continue-on-error: true
+#         with:
+#           command: test
+#           args: --sarif --sarif-file-output=snyk_open_source_scan.sarif 
+#         env:
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       # - name: Upload SARIF file to GitHub Security tab
       #   if: success() || failure()
