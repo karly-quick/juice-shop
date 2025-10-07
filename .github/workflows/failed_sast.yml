@@ -22,12 +22,12 @@ jobs:
         continue-on-error: true
         with:
           command: code test
-          args: --sarif --sarif-file-output=snyk_scan.sarif 
+          args: --json-file-output=snyk_scan.json 
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Upload Snyk SARIF file
+      - name: Upload Snyk JSON file
         uses: actions/upload-artifact@v4
         with:
-          name: snyk-sarif-report
-          path: snyk.sarif
+          name: snyk-json-report
+          path: snyk.json
