@@ -41,15 +41,24 @@ jobs:
         continue-on-error: true
         with:
           command: code test
-          args: --sarif --sarif-file-output=snyk_open_source_scan.sarif 
+          args: --sarif --sarif-file-output=snyk_scan.sarif 
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-       
-       # - name: Upload result to GitHub Code Scanning
-       #  uses: github/codeql-action/upload-sarif@v3
-       #  with:
-       #    sarif_file: snyk.sarif
 
+      - name: Upload SARIF file to GitHub Security tab
+        if: success() || failure()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk_scan.sarif
+
+      - name: Run Snyk to check for open source vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        with:
+          command: test
+          args: --sarif --sarif-file-output=snyk_open_source_scan.sarif --exclude-licenses
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Upload SARIF file to GitHub Security tab
         if: success() || failure()
