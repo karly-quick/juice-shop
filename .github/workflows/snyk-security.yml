@@ -45,17 +45,17 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
        
-       - name: Upload result to GitHub Code Scanning
+       # - name: Upload result to GitHub Code Scanning
+       #  uses: github/codeql-action/upload-sarif@v3
+       #  with:
+       #    sarif_file: snyk.sarif
+
+
+      - name: Upload SARIF file to GitHub Security tab
+        if: success() || failure()
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: snyk.sarif
-
-
-      # - name: Upload SARIF file to GitHub Security tab
-      #   if: success() || failure()
-      #   uses: github/codeql-action/upload-sarif@v3
-      #   with:
-      #     sarif_file: snyk_open_source_scan.sarif
+          sarif_file: snyk_open_source_scan.sarif
 
 
 
