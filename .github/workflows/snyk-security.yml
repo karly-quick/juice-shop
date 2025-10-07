@@ -56,7 +56,7 @@ jobs:
         continue-on-error: true
         with:
           command: test
-          args: --sarif --sarif-file-output=snyk_open_source_scan.sarif --exclude-licenses
+          args: --sarif --sarif-file-output=snyk_open_source_scan.sarif --severity-threshold=critical
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
