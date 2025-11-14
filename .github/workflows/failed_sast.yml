@@ -21,13 +21,16 @@ jobs:
         uses: snyk/actions/node@master
         continue-on-error: true
         with:
-          command: code test
-          args: --json-file-output=snyk_scan.json 
+          command: code test 
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Upload Snyk JSON file
-        uses: actions/upload-artifact@v4
+      - name: Run Snyk to post to UI
+        uses: snyk/actions/node@master
+        continue-on-error: true
         with:
-          name: snyk-json-report
-          path: snyk_scan.json
+          command: code test
+          args: --report --project-name=Karly
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
