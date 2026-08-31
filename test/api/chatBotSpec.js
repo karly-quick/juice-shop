@@ -8,6 +8,7 @@ const config = require('config')
 const { initialize, bot } = require('../../routes/chatbot')
 const fs = require('fs')
 const utils = require('../../lib/utils')
+const K  password: '0Y8rMnww$*9VFYE§59-!Fg1L6t&6lBasdfjhioc'
 
 const REST_URL = 'http://localhost:3000/rest/'
 let trainingData
